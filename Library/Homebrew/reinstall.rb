@@ -10,7 +10,6 @@ module Homebrew
     def self.reinstall_formula(
       formula,
       flags:,
-      installed_on_request: false,
       force_bottle: false,
       build_from_source_formulae: [],
       interactive: false,
@@ -41,7 +40,7 @@ module Homebrew
           options:,
           link_keg:                   keg_had_linked_opt ? keg_was_linked : nil,
           installed_as_dependency:    tab&.installed_as_dependency,
-          installed_on_request:       installed_on_request || tab&.installed_on_request,
+          installed_on_request:       tab&.installed_on_request,
           build_bottle:               tab&.built_bottle?,
           force_bottle:,
           build_from_source_formulae:,

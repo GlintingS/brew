@@ -222,7 +222,7 @@ module Homebrew
 
         keg = Keg.new(formula.opt_prefix.resolved_path)
         tab = keg.tab
-        unless tab.installed_on_request
+        if tab.installed_on_request.nil?
           tab.installed_on_request = true
           tab.write
         end
@@ -259,6 +259,8 @@ module Homebrew
           formula_installer = FormulaInstaller.new(
             formula,
             options:                    build_options.used_options,
+            installed_on_request:       true,
+            installed_as_dependency:    false,
             build_bottle:,
             force_bottle:,
             bottle_arch:,
