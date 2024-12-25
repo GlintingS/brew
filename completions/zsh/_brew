@@ -171,6 +171,7 @@ __brew_internal_commands() {
     'formula:Display the path where formula is located'
     'formulae:List all locally installable formulae including short names'
     'generate-cask-api:Generate `homebrew/cask` API data files for https://formulae.brew.sh'
+    'generate-cask-ci-matrix:Generate a GitHub Actions matrix for a given pull request URL or list of cask names'
     'generate-formula-api:Generate `homebrew/core` API data files for https://formulae.brew.sh'
     'generate-man-completions:Generate Homebrew'\''s manpages and shell completions'
     'gist-logs:Upload logs for a failed build of formula to a new Gist'
@@ -995,6 +996,22 @@ _brew_generate_cask_api() {
     '--verbose[Make some output more verbose]'
 }
 
+# brew generate-cask-ci-matrix
+_brew_generate_cask_ci_matrix() {
+  _arguments \
+    '--debug[Display any debugging information]' \
+    '--help[Show this message]' \
+    '(--syntax-only)--new[Run new cask checks]' \
+    '--quiet[Make some output more quiet]' \
+    '(--syntax-only)--skip-install[Skip installing casks]' \
+    '(--skip-install --new)--syntax-only[Only run syntax checks]' \
+    '(--cask)--url[Treat named argument as a pull request URL]' \
+    '--verbose[Make some output more verbose]' \
+    - cask \
+    '(--url)--cask[Treat all named arguments as cask tokens]' \
+    '*::cask:__brew_casks'
+}
+
 # brew generate-formula-api
 _brew_generate_formula_api() {
   _arguments \
@@ -1287,15 +1304,15 @@ _brew_linkage() {
 # brew list
 _brew_list() {
   _arguments \
-    '(--cask --versions --pinned -l --full-name)--built-from-source[List the formulae compiled from source]' \
+    '(--cask --versions --pinned -l)--built-from-source[List the formulae compiled from source]' \
     '--debug[Display any debugging information]' \
-    '(--versions --pinned --installed-on-request --installed-as-dependency --poured-from-bottle --built-from-source -l -r -t)--full-name[Print formulae with fully-qualified names. Unless `--full-name`, `--versions` or `--pinned` are passed, other options (i.e. `-1`, `-l`, `-r` and `-t`) are passed to `ls`(1) which produces the actual output]' \
+    '(--versions --pinned -l -r -t)--full-name[Print formulae with fully-qualified names. Unless `--full-name`, `--versions` or `--pinned` are passed, other options (i.e. `-1`, `-l`, `-r` and `-t`) are passed to `ls`(1) which produces the actual output]' \
     '--help[Show this message]' \
-    '(--cask --versions --pinned -l --full-name)--installed-as-dependency[List the formulae installed as dependencies]' \
-    '(--cask --versions --pinned -l --full-name)--installed-on-request[List the formulae installed on request]' \
+    '(--cask --versions --pinned -l)--installed-as-dependency[List the formulae installed as dependencies]' \
+    '(--cask --versions --pinned -l)--installed-on-request[List the formulae installed on request]' \
     '(--cask --pinned)--multiple[Only show formulae with multiple versions installed]' \
     '(--cask --multiple --installed-on-request --installed-as-dependency --poured-from-bottle --built-from-source -1 -l -r -t --full-name)--pinned[List only pinned formulae, or only the specified (pinned) formulae if formula are provided. See also `pin`, `unpin`]' \
-    '(--cask --versions --pinned -l --full-name)--poured-from-bottle[List the formulae installed from a bottle]' \
+    '(--cask --versions --pinned -l)--poured-from-bottle[List the formulae installed from a bottle]' \
     '--quiet[Make some output more quiet]' \
     '--verbose[Make some output more verbose]' \
     '(--installed-on-request --installed-as-dependency --poured-from-bottle --built-from-source -1 -l -r -t --full-name)--versions[Show the version number for installed formulae, or only the specified formulae if formula are provided]' \
@@ -1372,15 +1389,15 @@ _brew_log() {
 # brew ls
 _brew_ls() {
   _arguments \
-    '(--cask --versions --pinned -l --full-name)--built-from-source[List the formulae compiled from source]' \
+    '(--cask --versions --pinned -l)--built-from-source[List the formulae compiled from source]' \
     '--debug[Display any debugging information]' \
-    '(--versions --pinned --installed-on-request --installed-as-dependency --poured-from-bottle --built-from-source -l -r -t)--full-name[Print formulae with fully-qualified names. Unless `--full-name`, `--versions` or `--pinned` are passed, other options (i.e. `-1`, `-l`, `-r` and `-t`) are passed to `ls`(1) which produces the actual output]' \
+    '(--versions --pinned -l -r -t)--full-name[Print formulae with fully-qualified names. Unless `--full-name`, `--versions` or `--pinned` are passed, other options (i.e. `-1`, `-l`, `-r` and `-t`) are passed to `ls`(1) which produces the actual output]' \
     '--help[Show this message]' \
-    '(--cask --versions --pinned -l --full-name)--installed-as-dependency[List the formulae installed as dependencies]' \
-    '(--cask --versions --pinned -l --full-name)--installed-on-request[List the formulae installed on request]' \
+    '(--cask --versions --pinned -l)--installed-as-dependency[List the formulae installed as dependencies]' \
+    '(--cask --versions --pinned -l)--installed-on-request[List the formulae installed on request]' \
     '(--cask --pinned)--multiple[Only show formulae with multiple versions installed]' \
     '(--cask --multiple --installed-on-request --installed-as-dependency --poured-from-bottle --built-from-source -1 -l -r -t --full-name)--pinned[List only pinned formulae, or only the specified (pinned) formulae if formula are provided. See also `pin`, `unpin`]' \
-    '(--cask --versions --pinned -l --full-name)--poured-from-bottle[List the formulae installed from a bottle]' \
+    '(--cask --versions --pinned -l)--poured-from-bottle[List the formulae installed from a bottle]' \
     '--quiet[Make some output more quiet]' \
     '--verbose[Make some output more verbose]' \
     '(--installed-on-request --installed-as-dependency --poured-from-bottle --built-from-source -1 -l -r -t --full-name)--versions[Show the version number for installed formulae, or only the specified formulae if formula are provided]' \
